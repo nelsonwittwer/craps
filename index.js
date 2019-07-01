@@ -36,7 +36,7 @@ function wonGame() {
 
   do {
     chips = chipsAfterFieldLoop(chips, baseBet);
-  } while (chips > 0 && chips < 750)
+  } while (chips > 0 && chips < 999)
 
   return chips > 0;
 }
