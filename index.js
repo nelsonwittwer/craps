@@ -23,7 +23,7 @@ function fieldEarnings(roll, bet) {
     case 12:
       return bet * 3;
     default:
-      return 0;
+      return -bet;
   }
 }
 
@@ -35,43 +35,42 @@ function wonGame() {
   let counter = 0;
 
   do {
-    chips = chipsAfterFieldLoop(chips, baseBet);
-  } while (chips > 0 && chips < 999)
+    chips = chipsAfterFieldLoop(chips, baseBet, counter);
+  } while (chips > 0 && chips < 2000)
 
-  return chips > 0;
+  return chips > 999;
 }
 
-function rollRound(bet) {
+function earningsFromRoll(bet) {
   let roll = rollDice();
   let earnings = fieldEarnings(roll, bet);
   if (earnings > 0) {
     return bet + earnings;
   } else {
-    return 0;
+    return earnings;
   }
 }
 
-function chipsAfterFieldLoop(chips, baseBet) {
+function chipsAfterFieldLoop(chips, baseBet, counter) {
   let bet = baseBet;
-  let earnings = rollRound(bet);
+  let earnings = earningsFromRoll(bet);
+  chips = chips + earnings;
   if (earnings > 0) {
-    return earnings + chips
+    return chips
   }
 
+  bet = (bet * 2) + baseBet;
   do {
+    earnings = earningsFromRoll(bet);
+    chips = chips + earnings;
     bet = (bet * 2) + baseBet;
-    earnings = rollRound(bet);
-  } while (earnings === 0 && bet < chips)
+  } while (chips > 0 && earnings < 0 && bet < chips)
 
-  if (bet > chips) {
-    return 0
-  } else {
-    return earnings + chips;
-  }
+  return chips;
 }
 
 let results =  {win: 0, loss: 0}
-for (let step = 0; step < 100000; step++) {
+for (let step = 0; step < 10000; step++) {
   if(wonGame()) {
     results.win = results.win + 1
   } else {

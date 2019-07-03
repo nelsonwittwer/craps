@@ -1,7 +1,9 @@
 # What Am I?
 
 This is a small project I build to test the viability of a craps
-strategy.
+strategy betting on the field.
+
+The field has a 44% chance of making you money. 55% chance of losing.
 
 If you place a $5 bet on the field and lose it, you double your bet and
 add five. If you lose that bet, you double your previous and add 5. I
